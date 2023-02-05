@@ -1,18 +1,16 @@
 package cz.zdenek.demo.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import org.springframework.data.annotation.CreatedDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,24 +31,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "customer")
-public class CustomerEntity {
+@Table(name = "subscription")
+public class SubscriptionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToMany(mappedBy = "customer")
-    private List<QuotationEntity> quotations = new ArrayList<>();
+    private LocalDate startDate;
 
-    private String firstName;
+    private LocalDate validUntil;
 
-    private String lastName;
-
-    private String middleName;
-
-    private String email;
-
-    private String phoneNumber;
-
-    private LocalDate birtDate;
+    @OneToOne
+    @JoinColumn(name = "quotation_id")
+    private QuotationEntity quotation;
 }
